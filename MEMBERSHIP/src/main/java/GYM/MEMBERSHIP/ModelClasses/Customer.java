@@ -3,6 +3,7 @@ package GYM.MEMBERSHIP.ModelClasses;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -19,6 +20,7 @@ public class Customer {
 
     
     @OneToOne
+    @JoinColumn(name = "membership_id")
     private Membership membership;
 
     public Customer(String name, int age, String username, String password){

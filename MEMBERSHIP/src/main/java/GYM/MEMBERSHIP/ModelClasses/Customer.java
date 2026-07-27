@@ -3,6 +3,7 @@ package GYM.MEMBERSHIP.ModelClasses;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Customer {
@@ -16,12 +17,18 @@ public class Customer {
     private String username;
     private String password;
 
+    
+    @OneToOne
+    private Membership membership;
+
     public Customer(String name, int age, String username, String password){
         this.name = name;
         this.age = age;
         this.username = username;
         this.password = password;
     }
+
+    protected Customer(){}
 
     public String getName() {
         return name;

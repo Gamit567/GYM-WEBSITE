@@ -19,7 +19,7 @@ public class Membership {
     private LocalDate dateStarted;
     private LocalDate dateEnded;
 
-    protected Membership() {
+    public Membership() {
     }
 
     public Membership(MembershipEnum type, boolean status) {

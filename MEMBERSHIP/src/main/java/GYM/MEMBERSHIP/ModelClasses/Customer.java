@@ -30,7 +30,7 @@ public class Customer {
         this.password = password;
     }
 
-    protected Customer(){}
+    public Customer(){}
 
     public String getName() {
         return name;

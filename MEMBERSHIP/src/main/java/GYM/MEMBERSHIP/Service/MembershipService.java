@@ -36,10 +36,18 @@ public class MembershipService {
 
         public Membership changetype(long id,MembershipEnum type){
         Membership membership = membershipRepository.findById(id).orElseThrow(() -> new RuntimeException("customer not found"));
+        // it shouldnt allow the type to change but not the status
         if (membership.isStatus() == false && type != MembershipEnum.none){
             changeStatus(id, true);
         }
-        membership.setType(type);
+       
+
+        // reset to false for type
+        if (membership.isStatus() == true && type == MembershipEnum.none){
+            changeStatus(id, false);
+        }
+
+         membership.setType(type);
         
         membershipRepository.save(membership);
         return membership;

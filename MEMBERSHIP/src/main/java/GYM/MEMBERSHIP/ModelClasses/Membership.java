@@ -20,11 +20,8 @@ public class Membership {
     private LocalDate dateEnded;
 
     public Membership() {
-    }
-
-    public Membership(MembershipEnum type, boolean status) {
-        this.type = type;
-        this.status = status;
+        this.status = false;
+        this.type = MembershipEnum.none;
         this.dateStarted = LocalDate.now();
         this.dateEnded = dateStarted.plusDays(30);
     }

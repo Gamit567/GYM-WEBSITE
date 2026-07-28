@@ -18,7 +18,6 @@ public class Customer {
     private String username;
     private String password;
 
-    
     @OneToOne
     @JoinColumn(name = "membership_id")
     private Membership membership;
@@ -31,6 +30,15 @@ public class Customer {
     }
 
     public Customer(){}
+
+    
+    public Membership getMembership() {
+        return membership;
+    }
+
+    public void setMembership(Membership membership) {
+        this.membership = membership;
+    }
 
     public String getName() {
         return name;

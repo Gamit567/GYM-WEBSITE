@@ -40,6 +40,22 @@ public class CustomerController {
         Customer customer = customerService.findById(id);
         return ResponseEntity.ok(customer);
     }
+    @PostMapping("/changeusername")
+    public ResponseEntity<Customer> changeUsername(@RequestBody Map<String, String> params){
+        String username = String.valueOf(params.get("username"));
+        Long id = Long.valueOf(params.get("id"));
+        Customer customer  = customerService.changeUsername(username, id);
+        return ResponseEntity.ok(customer);
+        
+    }
+    @PostMapping("/changepassword")
+    public ResponseEntity<Customer> changePassword(@RequestBody Map<String, String> params){
+        String Password = String.valueOf(params.get("password"));
+        Long id = Long.valueOf(params.get("id"));
+        Customer customer  = customerService.changepassword(Password, id);
+        return ResponseEntity.ok(customer);
+        
+    }
 
     
     

@@ -10,13 +10,14 @@ public class CustomerService {
         this.customerRepository= customerRepository;
     }
 
-    public void createCustomer(int age, String name, String username,String password ){
+    public Customer createCustomer( String name,int age, String username,String password ){
         Customer customer = new Customer();
-        customer.setName(username);
+        customer.setName(name);
         customer.setAge(age);
         customer.setUsername(username);
         customer.setPassword(password);
         customerRepository.save(customer);
+        return customer;
     }
 
     public Customer findById(Long id){

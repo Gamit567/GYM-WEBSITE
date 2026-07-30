@@ -18,12 +18,17 @@ public class MembershipService {
 
     public Membership createMembership(long id){
         Customer customer = customerRepository.findById(id).orElseThrow(() -> new RuntimeException("customer not found"));
-
         Membership membership = new Membership();
+        // link the membership to the customer
         customer.setMembership(membership);
 
         membershipRepository.save(membership);
         return membership;
+    }
+
+    public Membership findById(long id){
+        return membershipRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("membership not found"));
     }
 
     public Membership changeStatus(long id,boolean status){

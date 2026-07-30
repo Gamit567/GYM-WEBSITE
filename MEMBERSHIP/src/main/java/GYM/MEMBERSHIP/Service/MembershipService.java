@@ -36,7 +36,6 @@ public class MembershipService {
         membership.setStatus(status);
         membershipRepository.save(membership);
         return membership;
-
     }
 
         public Membership changetype(long id,MembershipEnum type){
@@ -45,18 +44,13 @@ public class MembershipService {
         if (membership.isStatus() == false && type != MembershipEnum.none){
             changeStatus(id, true);
         }
-       
-
         // reset to false for type
         if (membership.isStatus() == true && type == MembershipEnum.none){
             changeStatus(id, false);
         }
-
-         membership.setType(type);
-        
+        membership.setType(type);
         membershipRepository.save(membership);
         return membership;
-
     }
     
 }

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import GYM.MEMBERSHIP.ModelClasses.Customer;
 import GYM.MEMBERSHIP.ModelClasses.Membership;
+import GYM.MEMBERSHIP.ModelClasses.MembershipEnum;
 import GYM.MEMBERSHIP.Service.CustomerService;
 import GYM.MEMBERSHIP.Service.MembershipService;
 
@@ -40,7 +40,24 @@ public class MembershipController {
         Membership membership = membershipService.findById(id);
         return ResponseEntity.ok(membership);
     }
+    public ResponseEntity<Membership> changeStatus(@RequestBody Map<String, String> params){
+        Long id = Long.valueOf(params.get("id"));
+        boolean status = Boolean.valueOf(params.get("status"));
+        Membership membership = membershipService.findById(id);
+        membershipService.changeStatus(id, status);
+        return ResponseEntity.ok(membership);
 
+    }
+
+    public ResponseEntity<Membership> changeType(@RequestBody Map<String, String> params){
+        Long id = Long.valueOf(params.get("id"));
+        MembershipEnum type = MembershipEnum.valueOf(params.get("type"));
+        Membership membership = membershipService.findById(id);
+        membershipService.changetype(id, type);
+        return ResponseEntity.ok(membership);
+
+    }
+    
     
 
 

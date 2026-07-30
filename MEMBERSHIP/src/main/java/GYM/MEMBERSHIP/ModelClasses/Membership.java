@@ -26,6 +26,16 @@ public class Membership {
         this.dateEnded = dateStarted.plusDays(30);
     }
 
+
+    public boolean checkExpiration(){
+        if (this.status == true){
+            if (this.dateEnded == LocalDate.now()){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Long getId() {
         return id;
     }

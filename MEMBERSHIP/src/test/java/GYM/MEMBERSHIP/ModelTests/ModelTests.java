@@ -22,7 +22,6 @@ public class ModelTests {
 
     @Test
     public void CustomerTest(){
-       
         customer.setName("user2");
         customer.setAge(25);
         customer.setUsername("user2username");
@@ -38,11 +37,8 @@ public class ModelTests {
 
     public void MembershipTest(){
         Membership membership = new Membership();
-
         membership.setStatus(true);
         membership.setDateStarted(LocalDate.now());
-        
-
 
     }
 

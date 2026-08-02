@@ -29,6 +29,7 @@ public class CustomerControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
     private CustomerRepository customerRepository;
 
     private Customer customer;
@@ -52,8 +53,8 @@ public class CustomerControllerTest {
                     .content(objectMapper.writeValueAsString(params))
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.name").value("user"))
-            .andExpect(jsonPath("$.username").value("user1"));
+            .andExpect(jsonPath("$.name").value("random1"))
+            .andExpect(jsonPath("$.username").value("randomuser"));
     }
 
 

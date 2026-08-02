@@ -76,4 +76,33 @@ public class MembershipControllerTest {
         Membership result = objectMapper.readValue(action.getResponse().getContentAsString(), Membership.class);
         assertEquals(result.getType(), membership.getType());
     }
+
+     @Test
+    public void setStatus() throws Exception{
+        Map<String, String> params = new HashMap<>();
+        params.put("id", String.valueOf(membership.getId()));
+        params.put("status","true");
+        mockMvc.perform(
+                        post("/membership/changestatus")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(params))
+                    .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.status").value("true"));
+    }
+
+    
+     @Test
+    public void setType() throws Exception{
+        Map<String, String> params = new HashMap<>();
+        params.put("id", String.valueOf(membership.getId()));
+        params.put("type","standard");
+        mockMvc.perform(
+                        post("/membership/changetype")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(params))
+                    .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.type").value("standard"));
+    }
 }

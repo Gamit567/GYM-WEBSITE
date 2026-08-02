@@ -22,7 +22,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @PostMapping("/createCustomer")
+    @PostMapping("/createcustomer")
     public ResponseEntity<Customer> createCustomer(@RequestBody Map<String, String> params){
         String name = String.valueOf(params.get("name"));
         int age = Integer.valueOf(params.get("age"));

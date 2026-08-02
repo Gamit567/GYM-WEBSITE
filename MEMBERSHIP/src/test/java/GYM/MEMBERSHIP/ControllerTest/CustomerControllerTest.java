@@ -3,8 +3,9 @@ package GYM.MEMBERSHIP.ControllerTest;
 import java.util.HashMap;
 import java.util.Map;
 
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import GYM.MEMBERSHIP.ModelClasses.Customer;
 import GYM.MEMBERSHIP.Repository.CustomerRepository;
@@ -48,13 +50,58 @@ public class CustomerControllerTest {
         params.put("password","password1");
         
         mockMvc.perform(
-                        post("/customer/createCustomer")
+                        post("/customer/createcustomer")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(params))
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.name").value("random1"))
             .andExpect(jsonPath("$.username").value("randomuser"));
+    }
+    @Test
+    public void getCustomer() throws Exception{
+        Map<String, String> params = new HashMap<>();
+        params.put("id", String.valueOf(customer.getId()));
+        MvcResult action = mockMvc.perform(
+                        get("/customer/getcustomer")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(params))
+                    .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andReturn();
+        Customer result = objectMapper.readValue(action.getResponse().getContentAsString(), Customer.class);
+        assertEquals(customer.getName(), result.getName());
+        assertEquals(customer.getAge(), result.getAge());
+        assertEquals(customer.getUsername(), result.getUsername());
+    }
+
+    @Test
+    public void setUsername() throws Exception{
+        Map<String, String> params = new HashMap<>();
+        params.put("id", String.valueOf(customer.getId()));
+        params.put("username","changedvalue");
+        mockMvc.perform(
+                        post("/customer/changeusername")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(params))
+                    .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.username").value("changedvalue"));
+    }
+
+    
+    @Test
+    public void setPassword() throws Exception{
+        Map<String, String> params = new HashMap<>();
+        params.put("id", String.valueOf(customer.getId()));
+        params.put("password","changedvalue");
+        mockMvc.perform(
+                        post("/customer/changepassword")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(params))
+                    .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.password").value("changedvalue"));
     }
 
 

@@ -67,7 +67,7 @@ public class CustomerServiceTest {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(customer));
         customerService.changepassword("password2", 1l);
 
-        assertEquals("password2", customer.getUsername());
+        assertEquals("password2", customer.getPassword());
         
     }
 

@@ -33,7 +33,7 @@ public class CustomerService {
     }
     public Customer changepassword(String password, long id){
         Customer customer = findById(id);
-        customer.setUsername(password);
+        customer.setPassword(password);
         customerRepository.save(customer);
         return customer;
     }

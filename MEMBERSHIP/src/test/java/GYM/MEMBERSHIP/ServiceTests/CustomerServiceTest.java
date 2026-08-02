@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import GYM.MEMBERSHIP.ModelClasses.Customer;
 import GYM.MEMBERSHIP.Repository.CustomerRepository;
@@ -20,14 +22,16 @@ import GYM.MEMBERSHIP.Service.CustomerService;
 
 @ExtendWith(MockitoExtension.class)
 public class CustomerServiceTest {
- 
+    // checks wether the logic acutally works such as when trying to create or change the customer details
+    // uses a fake repository because we only test logic and not the actual database.
     @Mock private CustomerRepository customerRepository;
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private CustomerService customerService;
     private Customer customer;
 
     @BeforeEach
     public void setup(){
-        customerService = new CustomerService(customerRepository);
+        customerService = new CustomerService(customerRepository,passwordEncoder);
 
         customer = new Customer("user", 20, "user1", "password1");
        
@@ -37,11 +41,10 @@ public class CustomerServiceTest {
     public void createCustomer(){
          when(customerRepository.save(any(Customer.class))).thenReturn(customer);
         Customer result = customerService.createCustomer("user", 20, "user1", "password1");
-
         assertEquals(customer.getName(), result.getName());
         assertEquals(customer.getAge() ,result.getAge());
         assertEquals(customer.getUsername(), result.getUsername());
-        assertEquals(customer.getPassword(), result.getPassword());
+        // cant compare passwords due to hash
     }
     @Test
     public void findBYid(){
@@ -65,9 +68,11 @@ public class CustomerServiceTest {
     @Test
      public void setPassword(){
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(customer));
-        customerService.changepassword("password2", 1l);
-
-        assertEquals("password2", customer.getPassword());
+        String new_password = "password2";
+        customerService.changepassword(new_password, 1l);
+        // due to hashing, i am using the password encoders built in match to compare passwords
+        boolean isCorrect = passwordEncoder.matches(new_password, customer.getPassword());
+        assertEquals(isCorrect,true);
         
     }
 

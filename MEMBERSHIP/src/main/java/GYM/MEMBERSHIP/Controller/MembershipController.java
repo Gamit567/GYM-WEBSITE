@@ -17,7 +17,9 @@ import GYM.MEMBERSHIP.Service.MembershipService;
 @RestController
 @RequestMapping("/membership")
 public class MembershipController {
-
+    // this handles actual responses from the user, 
+    // the controller parses through inputs and uses the service to generate http responses.
+    // controlls how the frontend will interact with the backend
     public MembershipService membershipService;
     public CustomerService customerService;
 

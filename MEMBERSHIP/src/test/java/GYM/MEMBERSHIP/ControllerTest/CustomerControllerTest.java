@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -35,6 +37,9 @@ public class CustomerControllerTest {
     private CustomerRepository customerRepository;
 
     private Customer customer;
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    
 
     @BeforeEach
     void setUp(){
@@ -43,17 +48,19 @@ public class CustomerControllerTest {
     }
     @Test
     public void createCustomerTest() throws Exception{
+        // pass in the params that the controller will reaad
         Map<String, String> params = new HashMap<>();
         params.put("name","random1");
         params.put("age","20");
         params.put("username","randomuser");
         params.put("password","password1");
-        
+        // send it to the correct path
         mockMvc.perform(
                         post("/customer/createcustomer")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(params))
                     .accept(MediaType.APPLICATION_JSON))
+            // check the response is as intended
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.name").value("random1"))
             .andExpect(jsonPath("$.username").value("randomuser"));
@@ -69,6 +76,7 @@ public class CustomerControllerTest {
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andReturn();
+        // alternate is to get the returned object and compare the values inside the returned object
         Customer result = objectMapper.readValue(action.getResponse().getContentAsString(), Customer.class);
         assertEquals(customer.getName(), result.getName());
         assertEquals(customer.getAge(), result.getAge());
@@ -77,6 +85,7 @@ public class CustomerControllerTest {
 
     @Test
     public void setUsername() throws Exception{
+        // similar to createcustomer using params that the controller reads and compares its result.
         Map<String, String> params = new HashMap<>();
         params.put("id", String.valueOf(customer.getId()));
         params.put("username","changedvalue");
@@ -92,16 +101,22 @@ public class CustomerControllerTest {
     
     @Test
     public void setPassword() throws Exception{
+         // similar to createcustomer using params that the controller reads and compares its result.
+        String new_password = "changedvalue";
         Map<String, String> params = new HashMap<>();
         params.put("id", String.valueOf(customer.getId()));
-        params.put("password","changedvalue");
-        mockMvc.perform(
+        params.put("password",new_password);
+        MvcResult action = mockMvc.perform(
                         post("/customer/changepassword")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(params))
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.password").value("changedvalue"));
+            .andReturn();
+        Customer result = objectMapper.readValue(action.getResponse().getContentAsString(), Customer.class);
+        boolean isCorrect = passwordEncoder.matches(new_password, result.getPassword());
+
+        assertEquals(isCorrect, true);
     }
 
 

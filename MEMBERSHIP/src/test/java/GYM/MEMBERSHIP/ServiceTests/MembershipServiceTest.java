@@ -5,7 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
-import java.util.PrimitiveIterator;
+
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,6 @@ import GYM.MEMBERSHIP.ModelClasses.Membership;
 import GYM.MEMBERSHIP.ModelClasses.MembershipEnum;
 import GYM.MEMBERSHIP.Repository.CustomerRepository;
 import GYM.MEMBERSHIP.Repository.MembershipRepository;
-import GYM.MEMBERSHIP.Service.CustomerService;
 import GYM.MEMBERSHIP.Service.MembershipService;
 
 @ExtendWith(MockitoExtension.class)

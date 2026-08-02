@@ -26,7 +26,7 @@ public class MembershipController {
         this.customerService = customerService;
     }
 
-    @PostMapping("/create")
+    @PostMapping("/createmembership")
     public ResponseEntity<Membership> createMembership(@RequestBody Map<String, String> params){
         Long id = Long.parseLong(params.get("id"));
         Membership membership = membershipService.createMembership(id);
@@ -34,12 +34,13 @@ public class MembershipController {
         return ResponseEntity.ok(membership); 
     }
 
-    @GetMapping("/find")
+    @GetMapping("/findmembership")
     public ResponseEntity<Membership> findMembership(@RequestBody Map<String, String> params){
         Long id = Long.valueOf(params.get("id"));
         Membership membership = membershipService.findById(id);
         return ResponseEntity.ok(membership);
     }
+    @PostMapping("/changestatus")
     public ResponseEntity<Membership> changeStatus(@RequestBody Map<String, String> params){
         Long id = Long.valueOf(params.get("id"));
         boolean status = Boolean.valueOf(params.get("status"));
@@ -48,7 +49,7 @@ public class MembershipController {
         return ResponseEntity.ok(membership);
 
     }
-
+    @PostMapping("/changetype")
     public ResponseEntity<Membership> changeType(@RequestBody Map<String, String> params){
         Long id = Long.valueOf(params.get("id"));
         MembershipEnum type = MembershipEnum.valueOf(params.get("type"));

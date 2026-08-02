@@ -1,11 +1,14 @@
 package GYM.MEMBERSHIP.Service;
 
+import org.springframework.stereotype.Service;
+
 import GYM.MEMBERSHIP.ModelClasses.Customer;
 import GYM.MEMBERSHIP.ModelClasses.Membership;
 import GYM.MEMBERSHIP.ModelClasses.MembershipEnum;
 import GYM.MEMBERSHIP.Repository.CustomerRepository;
 import GYM.MEMBERSHIP.Repository.MembershipRepository;
 
+@Service
 public class MembershipService {
 
     private final MembershipRepository membershipRepository;
